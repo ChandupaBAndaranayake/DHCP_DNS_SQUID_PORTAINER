@@ -1,4 +1,3 @@
-````markdown
 # DHCP, DNS, SQUID, PORTAINER Setup
 
 This repository contains a ready-to-run Docker Compose setup for a **local lab network environment**. It includes:
@@ -39,7 +38,7 @@ Edit `/etc/systemd/resolved.conf`:
 
 ```bash
 sudo nano /etc/systemd/resolved.conf
-````
+
 
 Add/modify the following:
 
