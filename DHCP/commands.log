@@ -1,0 +1,5 @@
+docker network create -d macvlan --subnet=192.168.8.0/24 --gateway=192.168.8.1 -o parent=ensp1s0 VCCT_macvlan
+sudo docker network create -d macvlan --subnet=192.168.8.0/24 --gateway=192.168.8.1 -o parent=enp1s0 VCCT_macvlan
+sudo docker run -d --name dhcp_image --net VCCT_macvlan --ip 192.168.8.5 dhcp_image
+
+ls

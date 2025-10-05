@@ -1,0 +1,12 @@
+sudo docker run -d --name squid_image --net VCCT_macvlan --ip 192.168.8.6 squid_image
+
+docker run --rm --net VCCT_macvlan alpine:latest \
+    sh -c "apk add --no-cache curl && curl -x http://192.168.8.6:3128 http://example.com"
+
+curl -x http://192.168.8.6:3128 http://example.com
+
+proxy firefox config
+ip:-192.168.8.6 , port:-3128
+no proxy:- 127.0.0.1, localhost, 192.168.8.0/24
+
+docker exec -it squid_image tail -f /var/log/squid/access.log

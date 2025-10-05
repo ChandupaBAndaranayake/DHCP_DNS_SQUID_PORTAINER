@@ -1,0 +1,52 @@
+version: '3.9'
+services:
+  dns:
+    image: punkyblast/dns:latest
+    container_name: alpine_dns
+    networks:
+      VCCT_macvlan:
+        ipv4_address: 192.168.8.132
+    restart: unless-stopped
+  dhcp:
+    image: punkyblast/dhcps:latest
+    container_name: alpine_dhcp
+    networks:
+      VCCT_macvlan:
+        ipv4_address: 192.168.8.5
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
+  squid:
+    image: punkyblast/squid:latest
+    container_name: alpine_squid
+    networks:
+      VCCT_macvlan:
+        ipv4_address: 192.168.8.6
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: 512M
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    restart: always
+    ports:
+      - "9000:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+
+networks:
+  VCCT_macvlan:
+    driver: macvlan
+    driver_opts:
+      parent: enp1s0
+    ipam:
+      config:
+        - subnet: 192.168.8.0/24
+          gateway: 192.168.8.1
+
+volumes:
+  portainer_data:
